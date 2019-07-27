@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+.word-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.word-card {
+  background-color: lightgray;
+  padding: 16px;
+  border-radius: 10px;
+  margin: 16px 16px;
+  width: 60%;
+}
+
+.part-of-speech {
+  margin: 8px;
+  font-style: italic;
+  align-self: flex-start;
+}
+
+.date {
+  margin: 16px;
+  font-size: 0.9em;
+}
+
+.definition-set {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.definition-text {
+  margin: 8px;
+}
