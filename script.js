@@ -18,15 +18,31 @@ function fetchWordDefinitions() {
     });
 }
 
+/*
+Builds a stack of word card components, one card for each item in the array.
+returnedArray: the array of objects returned from the AJAX call to the API
+*/
 function buildWordCards(returnedArray) {
   const wordCardsDiv = document.createElement("div");
   wordCardsDiv.setAttribute("class", "word-cards");
   definitionsDiv.appendChild(wordCardsDiv);
-  for (element of returnedArray) {
-    buildWordCard(element, wordCardsDiv);
+  if (returnedArray.length > 0) {
+    for (element of returnedArray) {
+      buildWordCard(element, wordCardsDiv);
+    }
+  } else {
+    const noResultsFound = document.createElement("p");
+    noResultsFound.setAttribute("class", "word-cards");
+    noResultsFound.innerText = "No results found.";
+    definitionsDiv.appendChild(noResultsFound);
   }
 }
 
+/*
+Builds a word card that includes a part of speech and however many definitions are associated with that specific usage of the word.
+returnedObject: the object instance from the array that is returned from the AJAX call to the API
+wordCardsParentElement: whichever element this component will be nested inside
+*/
 function buildWordCard(returnedObject, wordCardsParentElement) {
   const wordCardDiv = document.createElement("div");
   wordCardDiv.setAttribute("class", "word-card");
@@ -35,6 +51,11 @@ function buildWordCard(returnedObject, wordCardsParentElement) {
   buildDefinitionSet(returnedObject, wordCardDiv);
 }
 
+/*
+Builds a p that contains the part of speech for the specific useage of the word
+returnedObject: the object instance from the array that is returned from the AJAX call to the API
+wordCardsParentElement: whichever element this component will be nested inside
+*/
 function buildPartOfSpeech(returnedObject, parentElement) {
   const partOfSpeech = returnedObject.fl;
   const p = document.createElement("p");
@@ -43,6 +64,11 @@ function buildPartOfSpeech(returnedObject, parentElement) {
   parentElement.appendChild(p);
 }
 
+/*
+Builds a ul that contains a li for each specific defintiion attributed to the specific useage of the word
+returnedObject: the object instance from the array that is returned from the AJAX call to the API
+wordCardsParentElement: whichever element this component will be nested inside
+*/
 function buildDefinitionSet(returnedObject, parentElement) {
   const definitionsArray = returnedObject.shortdef;
   const ul = document.createElement("ul");
@@ -57,6 +83,9 @@ function buildDefinitionSet(returnedObject, parentElement) {
   parentElement.appendChild(ul);
 }
 
+/*
+Utility function to capitalize first letter of any string
+*/
 function formatPlainString(unformattedString) {
   if (!unformattedString) {
     return " ";
@@ -67,6 +96,9 @@ function formatPlainString(unformattedString) {
   return formattedString;
 }
 
+/*
+Adds search term to local storage so it can be referenced when the page reloads
+*/
 function setSearchTerm() {
   searchTerm = document.querySelector(".search-field").value;
   localStorage.setItem("searchTerm", searchTerm);
