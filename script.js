@@ -1,6 +1,6 @@
 const dictionaryKey = config.DICTIONARY_KEY;
 const spanishKey = config.SPANISH_KEY;
-let searchTerm = "dog";
+let searchTerm = localStorage.getItem("searchTerm") || "search";
 const definitionsDiv = document.querySelector(".definitions");
 const FETCH_URL = `https://dictionaryapi.com/api/v3/references/collegiate/json/${searchTerm}?key=${dictionaryKey}`;
 
@@ -13,6 +13,7 @@ function fetchWordDefinitions() {
     })
     .then(function(processedResponse) {
       console.log(processedResponse);
+      document.querySelector(".word-display").innerText = searchTerm;
       buildWordCards(processedResponse);
     });
 }
@@ -32,7 +33,6 @@ function buildWordCard(returnedObject, wordCardsParentElement) {
   wordCardsParentElement.appendChild(wordCardDiv);
   buildPartOfSpeech(returnedObject, wordCardDiv);
   buildDefinitionSet(returnedObject, wordCardDiv);
-  //   buildDate(returnedObject, wordCardDiv);
 }
 
 function buildPartOfSpeech(returnedObject, parentElement) {
@@ -40,14 +40,6 @@ function buildPartOfSpeech(returnedObject, parentElement) {
   const p = document.createElement("p");
   p.setAttribute("class", "part-of-speech");
   p.innerText = formatPlainString(partOfSpeech);
-  parentElement.appendChild(p);
-}
-
-function buildDate(returnedObject, parentElement) {
-  let date = returnedObject.date;
-  const p = document.createElement("p");
-  p.setAttribute("class", "date");
-  p.innerText = formatPlainString(date);
   parentElement.appendChild(p);
 }
 
@@ -65,16 +57,6 @@ function buildDefinitionSet(returnedObject, parentElement) {
   parentElement.appendChild(ul);
 }
 
-function formatDateString(dateString) {
-  if (dateString && (dateString.includes = "{")) {
-    dateString = dateString.substr(0, dateString.indexOf("{"));
-  } else {
-    //no need to format, just return it back
-    dateString = dateString;
-  }
-  return dateString;
-}
-
 function formatPlainString(unformattedString) {
   if (!unformattedString) {
     return " ";
@@ -85,4 +67,15 @@ function formatPlainString(unformattedString) {
   return formattedString;
 }
 
-fetchWordDefinitions();
+function setSearchTerm() {
+  searchTerm = document.querySelector(".search-field").value;
+  localStorage.setItem("searchTerm", searchTerm);
+}
+
+document
+  .querySelector(".search-button")
+  .addEventListener("click", fetchWordDefinitions());
+
+document
+  .querySelector(".search-form")
+  .addEventListener("submit", setSearchTerm);

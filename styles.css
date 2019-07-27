@@ -2,17 +2,38 @@
   box-sizing: border-box;
 }
 
+.search-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.search-form {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.word-display {
+  font-size: 2em;
+  padding-bottom: 4px;
+  margin: 0;
+}
+
 .word-cards {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  margin: 0;
 }
 
 .word-card {
   background-color: lightgray;
   padding: 16px;
   border-radius: 10px;
-  margin: 16px 16px;
+  margin: 8px 16px;
   width: 60%;
 }
 
